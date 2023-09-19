@@ -14,30 +14,57 @@ namespace Homework10._8
 {
     internal class ClientsRepository
     {
-        public ClientsRepository() { }
+        private string databasePath;
+        private List<Client> clients;
 
-        public List<Client> clients = new List<Client>();
+        //// для теста записи
 
-        private string databasePath = "clientsList.json"; // путь до JSON файла с клиентами
-             
+        //private string updatedDatabasePath = "updatedClientsList.json";
 
-        public void readClientBase()
+
+        public ClientsRepository()
+        {
+            this.databasePath = "clientsList.json"; // путь до JSON файла с клиентами
+                     
+        }
+        public ClientsRepository(string databasePath)
+        {
+            this.databasePath = databasePath;
+        }
+        
+        /// <summary>
+        /// Считываем список клиентов из файла базы
+        /// </summary>
+        public void ReadClientBaseFile()
         {
             string fileText = File.ReadAllText(this.databasePath);
             this.clients = JsonConvert.DeserializeObject<List<Client>>(fileText);
         }
 
-        public string printClientBase()
+        public int GetBaseSize() { return this.clients.Count; } // возвращает количество записей в базе клиентов
+
+        public List<Client> GetClients() { return this.clients;} // возвращает список клиентов
+
+        /// <summary>
+        /// Записываем изменения в информации клиента 
+        /// </summary>
+        /// <param name="updatedClientInfo"></param>
+        /// <param name="clientPosition"></param>
+        public void UpdateClientInfo(Client updatedClientInfo, int clientPosition)
         {
-            string clientsTable = "";
-            foreach (var client in this.clients)
-            {
-                clientsTable += client.ToString();
-                clientsTable += "\n";
-            }
-            return clientsTable;
+            clients[clientPosition] = updatedClientInfo;
+            UpdateClientBaseFile();
         }
-        
+
+        /// <summary>
+        /// Записываем текущий список клиентов в файл
+        /// </summary>
+        private void UpdateClientBaseFile()
+        {
+            string fileText = JsonConvert.SerializeObject(this.clients);
+            File.WriteAllText(this.databasePath, fileText);
+        }
+
         //public void updateClientBase()
         //{
         //    Stream fStream = new FileStream(this.databasePath, FileMode.Create, FileAccess.Write);

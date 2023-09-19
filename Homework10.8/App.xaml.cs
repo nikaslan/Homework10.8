@@ -17,7 +17,7 @@ namespace Homework10._8
         
         protected override void OnStartup(StartupEventArgs e)
         {
-           
+            
         }
     }
 }
