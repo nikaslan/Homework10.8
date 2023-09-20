@@ -16,3 +16,5 @@ D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\Homework10.8.c
 D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\Homework10.8.csproj.CopyComplete
 D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\Homework10.8.exe
 D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\Homework10.8.pdb
+D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\UserCheck.g.cs
+D:\Projects\Skillbox\CShBegin\Homework10.8\Homework10.8\obj\Debug\UserCheck.baml

@@ -17,19 +17,17 @@ namespace Homework10._8
         private string databasePath;
         private List<Client> clients;
 
-        //// для теста записи
+        // для теста записи
 
-        //private string updatedDatabasePath = "updatedClientsList.json";
+        private string updatedDatabasePath = "updatedClientsList.json";
 
 
-        public ClientsRepository()
-        {
-            this.databasePath = "clientsList.json"; // путь до JSON файла с клиентами
-                     
+        public ClientsRepository() : this("clientsList.json")
+        {                                  
         }
         public ClientsRepository(string databasePath)
         {
-            this.databasePath = databasePath;
+            this.databasePath = databasePath; // путь до JSON файла с клиентами
         }
         
         /// <summary>
@@ -62,7 +60,9 @@ namespace Homework10._8
         private void UpdateClientBaseFile()
         {
             string fileText = JsonConvert.SerializeObject(this.clients);
-            File.WriteAllText(this.databasePath, fileText);
+            //File.WriteAllText(this.databasePath, fileText);
+
+            File.WriteAllText(this.updatedDatabasePath, fileText); // тестовый файл записи
         }
 
         //public void updateClientBase()

@@ -15,7 +15,7 @@ namespace Homework10._8
         /// <param name="repository">ссылка на базу клиентов</param>
         /// <param name="i">порядковый номер клиента в базе</param>
         /// <returns></returns>
-        public Dictionary<string,string> showClientData(ClientsRepository repository, int i)
+        public virtual Dictionary<string,string> ShowClientData(ClientsRepository repository, int i)
         { 
             Dictionary<string, string> client = new Dictionary<string,string>();
 
@@ -23,8 +23,8 @@ namespace Homework10._8
             client.Add("LastName", repository.GetClients()[i].LastName);
             client.Add("FatherName", repository.GetClients()[i].FatherName);
             client.Add("PhoneNumber", repository.GetClients()[i].PhoneNumber);
-            string passport = "Нет данных паспорта";
-            if (repository.GetClients()[i].Passport!=null)
+            string passport = "";
+            if (repository.GetClients()[i].Passport!=null&& repository.GetClients()[i].Passport.Trim()!="")
             {
                 passport = "**** ******";
             }
@@ -37,24 +37,35 @@ namespace Homework10._8
         /// список полей, доступных для редактирования
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, bool> GetClientDataEditAccess()
+        public virtual Dictionary<string, bool> GetClientDataEditAccess()
         {
-            Dictionary<string, bool> access = new Dictionary<string, bool>();
-
-            access.Add("FirstName", true);
-            access.Add("LastName", true);
-            access.Add("FatherName", true);
-            access.Add("PhoneNumber", false);
-            access.Add("Passport", true);
-
+            Dictionary<string, bool> access = new Dictionary<string, bool>
+            {
+                { "FirstName", false},
+                { "LastName", false },
+                { "FatherName", false },
+                { "PhoneNumber", true },
+                { "Passport", false }
+            };
             return access;
         }
 
-        public void updateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
+        /// <summary>
+        /// Запись изменений клиента в базу
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="updatedClient"></param>
+        /// <param name="clientPosition"></param>
+        public virtual void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
         {
-            Client updatedClientData = repository.GetClients()[clientPosition]; // в промежуточную переменную записываем все поля из текущей базы
-            updatedClientData.SetPhoneNumber(updatedClient.PhoneNumber); // и перезаписываем только то поле, которое доступно консультанту для изменения
-
+            // в промежуточную переменную записываем все поля из текущей базы
+            // и перезаписываем только то поле, которое доступно консультанту для изменения
+            Client updatedClientData = new Client(repository.GetClients()[clientPosition].FirstName,
+                repository.GetClients()[clientPosition].LastName,
+                repository.GetClients()[clientPosition].FatherName,
+                updatedClient.PhoneNumber,
+                repository.GetClients()[clientPosition].Passport);
+                        
             repository.UpdateClientInfo(updatedClientData, clientPosition);
 
             Console.WriteLine("updated client sent to repository");

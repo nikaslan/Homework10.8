@@ -48,10 +48,10 @@ namespace Homework10._8
             this.LastName = lastName;
             this.FatherName = fatherName;
             this.PhoneNumber = phoneNumber;
-            this.Passport = passport;
+            if (passport == null || passport.Trim() == "") this.Passport = null;            
+            else this.Passport = passport;
+            
         }
-
-        #region Методы получение параметров клиента
 
         /// <summary>
         /// Получение полного имени пользователя
@@ -63,15 +63,5 @@ namespace Homework10._8
             return fullName;
         }        
 
-        #endregion
-
-        #region Методы задания параметров
-        public void SetPhoneNumber(string phoneNumber)
-        {
-            this.phoneNumber = phoneNumber;
-        }
-
-
-        #endregion
     }
 }
