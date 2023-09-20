@@ -59,8 +59,6 @@ namespace Homework10._8
         public override void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
         {
             repository.UpdateClientInfo(updatedClient, clientPosition);
-
-            Console.WriteLine("updated client sent to repository");
         }
     }
 }

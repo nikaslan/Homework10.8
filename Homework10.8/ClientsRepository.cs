@@ -19,7 +19,7 @@ namespace Homework10._8
 
         // для теста записи
 
-        private string updatedDatabasePath = "updatedClientsList.json";
+        //private string updatedDatabasePath = "updatedClientsList.json";
 
 
         public ClientsRepository() : this("clientsList.json")
@@ -60,25 +60,10 @@ namespace Homework10._8
         private void UpdateClientBaseFile()
         {
             string fileText = JsonConvert.SerializeObject(this.clients);
-            //File.WriteAllText(this.databasePath, fileText);
+            File.WriteAllText(this.databasePath, fileText);
 
-            File.WriteAllText(this.updatedDatabasePath, fileText); // тестовый файл записи
+            //File.WriteAllText(this.updatedDatabasePath, fileText); // тестовый файл записи
         }
-
-        //public void updateClientBase()
-        //{
-        //    Stream fStream = new FileStream(this.databasePath, FileMode.Create, FileAccess.Write);
-
-        //    newContact.Save(fStream);
-
-        //    fStream.Close();
-        //}
-        // нужен разбор файла в коллекцию элементов типа client 
-        // нужен метод записи изменений обратно в файл. Думаю при любом изменении, надо перезаписывать их в файл из текущей коллекции
-
-        // нужно реализовать многопоточность. Смотрим примеры работ в модуле 8 и модуле 7.
-
-        // сначала все реализуем, потом попробуем сделать с потоками
 
     }
 }

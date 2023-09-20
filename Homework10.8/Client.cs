@@ -41,6 +41,7 @@ namespace Homework10._8
             get { return passport; }
             private set { this.passport = value; }
         }
+        
 
         public Client(string firstName, string lastName, string fatherName, string phoneNumber, string passport)
         {

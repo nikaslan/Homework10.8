@@ -67,8 +67,6 @@ namespace Homework10._8
                 repository.GetClients()[clientPosition].Passport);
                         
             repository.UpdateClientInfo(updatedClientData, clientPosition);
-
-            Console.WriteLine("updated client sent to repository");
         }
     }
 }
