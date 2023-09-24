@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Homework10._8
 {
-    internal class Manager : Consultant
+    internal class Manager : IReadUser, IUpdateUser
     {
         public Manager() { }
-
-        /// <summary>
-        /// список полей, доступных для редактирования
-        /// </summary>
-        /// <returns></returns>
-        public override Dictionary<string, bool> GetClientDataEditAccess()
+                
+        public Dictionary<string, bool> GetClientDataEditAccess()
         {
             Dictionary<string, bool> access = new Dictionary<string, bool>
             {
@@ -27,13 +23,7 @@ namespace Homework10._8
             return access;
         }
 
-        /// <summary>
-        /// Получение записи одного клиента
-        /// </summary>
-        /// <param name="repository">ссылка на базу клиентов</param>
-        /// <param name="i">порядковый номер клиента в базе</param>
-        /// <returns></returns>
-        public override Dictionary<string, string> ShowClientData(ClientsRepository repository, int i)
+        public Dictionary<string, string> ShowClientData(ClientsRepository repository, int i)
         {
             Dictionary<string, string> client = new Dictionary<string, string>();
 
@@ -50,13 +40,7 @@ namespace Homework10._8
             return client;
         }
 
-        /// <summary>
-        /// Запись изменений клиента в базу
-        /// </summary>
-        /// <param name="repository"></param>
-        /// <param name="updatedClient"></param>
-        /// <param name="clientPosition"></param>
-        public override void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
+        public void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
         {
             repository.UpdateClientInfo(updatedClient, clientPosition);
         }

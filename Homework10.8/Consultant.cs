@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace Homework10._8
 {
-    internal class Consultant
+    internal class Consultant : IReadUser, IUpdateUser
     {
         public Consultant() { }
-        /// <summary>
-        /// Получение записи одного клиента
-        /// </summary>
-        /// <param name="repository">ссылка на базу клиентов</param>
-        /// <param name="i">порядковый номер клиента в базе</param>
-        /// <returns></returns>
-        public virtual Dictionary<string,string> ShowClientData(ClientsRepository repository, int i)
+        
+        public Dictionary<string,string> ShowClientData(ClientsRepository repository, int i)
         { 
             Dictionary<string, string> client = new Dictionary<string,string>();
 
@@ -33,11 +28,7 @@ namespace Homework10._8
             return client;
         }
 
-        /// <summary>
-        /// список полей, доступных для редактирования
-        /// </summary>
-        /// <returns></returns>
-        public virtual Dictionary<string, bool> GetClientDataEditAccess()
+        public Dictionary<string, bool> GetClientDataEditAccess()
         {
             Dictionary<string, bool> access = new Dictionary<string, bool>
             {
@@ -50,13 +41,7 @@ namespace Homework10._8
             return access;
         }
 
-        /// <summary>
-        /// Запись изменений клиента в базу
-        /// </summary>
-        /// <param name="repository"></param>
-        /// <param name="updatedClient"></param>
-        /// <param name="clientPosition"></param>
-        public virtual void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
+        public void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
         {
             // в промежуточную переменную записываем все поля из текущей базы
             // и перезаписываем только то поле, которое доступно консультанту для изменения

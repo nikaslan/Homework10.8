@@ -21,18 +21,28 @@ namespace Homework10._8
     public partial class MainWindow : Window
     {
 
-        Consultant user;
+        IReadUser userReader;
+        IUpdateUser userUpdater;
         ClientsRepository clientBase;
 
         public MainWindow(int userRole)
         {
             InitializeComponent();
-            
-            if (userRole == 1) { user = new Consultant(); }
-            if (userRole == 2) { user = new Manager(); }
-            
+                        
             clientBase = new ClientsRepository();
-            TextBoxClientAccess(user.GetClientDataEditAccess());
+
+            if (userRole == 1) 
+            { 
+                userReader = new Consultant();
+                userUpdater = new Consultant();
+            }
+            if (userRole == 2)
+            {
+                userReader = new Manager();
+                userUpdater = new Manager();
+            }
+
+            TextBoxClientAccess(userReader.GetClientDataEditAccess());
             ClientsLoad();
 
         }
@@ -71,11 +81,7 @@ namespace Homework10._8
         /// <param name="i"></param>
         private void ClientInfoLoad(int clientSelected)
         {
-            Dictionary<string, string> client = user.ShowClientData(clientBase, clientSelected);
-            foreach(KeyValuePair<string, string> pair in client)
-            {
-
-            }
+            Dictionary<string, string> client = userReader.ShowClientData(clientBase, clientSelected);
             TextBoxClientFirstName.Text = client["FirstName"];
             TextBoxClientLastName.Text = client["LastName"];
             TextBoxClientFatherName.Text = client["FatherName"];
@@ -112,7 +118,7 @@ namespace Homework10._8
                 clientDataVerificationResults["LastName"], clientDataVerificationResults["FatherName"],
                 clientDataVerificationResults["PhoneNumber"],clientDataVerificationResults["Passport"]);
 
-            user.UpdateClientData(clientBase, updatedClient, clientSelected);
+            userUpdater.UpdateClientData(clientBase, updatedClient, clientSelected);
             Console.WriteLine("UpdateClientInfo initiated");
         }
         /// <summary>
