@@ -37,7 +37,8 @@ namespace Homework10._8
                 { "LastName", false },
                 { "FatherName", false },
                 { "PhoneNumber", true },
-                { "Passport", false }
+                { "Passport", false },
+                { "NewClient", false }
             };
             return access;
         }

@@ -50,7 +50,8 @@ namespace Homework10._8
         /// <param name="clientPosition"></param>
         public void UpdateClientInfo(Client updatedClientInfo, int clientPosition, string updatedBy, string updatedData, string updateType)
         {
-            clients[clientPosition] = updatedClientInfo;
+            if (clientPosition == clients.Count) { clients.Add(updatedClientInfo); }
+            else clients[clientPosition] = updatedClientInfo;
             clients[clientPosition].LastUpdateInfoSet(updatedBy, updatedData, updateType);
             UpdateClientBaseFile();
         }

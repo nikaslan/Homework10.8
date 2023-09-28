@@ -57,6 +57,7 @@ namespace Homework10._8
             TextBoxClientFatherName.IsReadOnly = !accessList["FatherName"];
             TextBoxClientPhoneNumber.IsReadOnly = !accessList["PhoneNumber"];
             TextBoxClientPassport.IsReadOnly = !accessList["Passport"];
+            Button_AddNewClient.IsEnabled = accessList["NewClient"];
         }
         
         /// <summary>
@@ -90,8 +91,14 @@ namespace Homework10._8
             TextBlockClientUpdateLog.Text = client["UpdateLog"];
         }
 
+        /// <summary>
+        /// при выделении нового клиента из списка, подгружаем его данные
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBox_Clients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (ListBox_Clients.SelectedIndex == -1) return; // если убрали выделение, то ничего не надо загружать
             int clientSelected = ListBox_Clients.SelectedIndex;
             ClientInfoLoad(clientSelected);
         }
@@ -101,7 +108,6 @@ namespace Homework10._8
             int clientSelected = ListBox_Clients.SelectedIndex;
             UpdateClientInfo(clientSelected);            
             Console.WriteLine("Client Save button clicked");
-            ClientInfoLoad(clientSelected);
         }
 
         /// <summary>
@@ -126,6 +132,13 @@ namespace Homework10._8
 
             userUpdater.UpdateClientData(clientBase, updatedClient, clientSelected);
             Console.WriteLine("UpdateClientInfo initiated");
+            // Если не было выделено клиентов в списке, значит добавлен новый клиент и мы читаем его из конца базы
+            if (clientSelected == -1) clientSelected = ListBox_Clients.Items.Count;
+            
+            ClientsLoad();
+            ListBox_Clients.SelectedIndex = clientSelected; 
+            ListBox_Clients.Focus();
+            ClientInfoLoad(clientSelected);
         }
         /// <summary>
         /// Проверка формата данных пользователя
@@ -138,7 +151,7 @@ namespace Homework10._8
 
             clientDataStatus.Add("ErrorMessage", "");
             #region Проверка имени
-            if (TextBoxClientFirstName.Text == null || TextBoxClientFirstName.Text.Trim() == "")
+            if (TextBoxClientFirstName.Text.Trim() == "")
             {
                 clientDataStatus["ErrorMessage"] += "Имя не может быть пустым \n";
             }
@@ -147,7 +160,7 @@ namespace Homework10._8
             #endregion
 
             #region Проверка фамилии
-            if (TextBoxClientLastName.Text == null || TextBoxClientLastName.Text.Trim() == "")
+            if (TextBoxClientLastName.Text.Trim() == "")
             {
                 clientDataStatus["ErrorMessage"] += "Фамилия не может быть пустой \n";
             }
@@ -155,7 +168,7 @@ namespace Homework10._8
             #endregion
 
             #region Проверка отчества
-            if (TextBoxClientFatherName.Text == null || TextBoxClientFatherName.Text.Trim() == "")
+            if (TextBoxClientFatherName.Text.Trim() == "")
             {
                 clientDataStatus["ErrorMessage"] += "Отчество не может быть пустым \n";
             }
@@ -175,12 +188,23 @@ namespace Homework10._8
             clientDataStatus.Add("LastName", TextBoxClientLastName.Text);
             clientDataStatus.Add("FatherName", TextBoxClientFatherName.Text);
             clientDataStatus.Add("PhoneNumber", TextBoxClientPhoneNumber.Text);
-            if (TextBoxClientPassport.Text != null || TextBoxClientPassport.Text.Trim() != "")
-            {
-                clientDataStatus.Add("Passport", TextBoxClientPassport.Text);
-            }
-
+            clientDataStatus.Add("Passport", TextBoxClientPassport.Text);
+            
             return clientDataStatus;
+        }
+
+        private void Button_AddNewClient_Click(object sender, RoutedEventArgs e)
+        {
+            // при нажатии на создание нового клиента, мы убираем выделение из списка клиентов и обнуляем все текстовые поля
+            ListBox_Clients.UnselectAll();
+            TextBoxClientFirstName.Text = "";
+            TextBoxClientLastName.Text = "";
+            TextBoxClientFatherName.Text = "";
+            TextBoxClientPhoneNumber.Text = "";
+            TextBoxClientPassport.Text = "";
+            TextBlockClientUpdateLog.Text = "Введите данные нового клиента и нажмите сохранить.";
+            TextBoxClientFirstName.Focus();
+            Console.WriteLine("adding new client");
         }
     }
 }

@@ -19,7 +19,8 @@ namespace Homework10._8
                 { "LastName", true },
                 { "FatherName", true },
                 { "PhoneNumber", true },
-                { "Passport", true }
+                { "Passport", true },
+                { "NewClient", true }
             };
             return access;
         }
@@ -49,43 +50,51 @@ namespace Homework10._8
             string updatesType = "";
             string tempUpdateType;
 
-            // проверяем каждое поле на наличие изменений и их тип
-            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FirstName, updatedClient.FirstName);
-            if (tempUpdateType != "")
+            if (clientPosition != -1)
             {
-                fieldsUpdated += "first name;";
-                updatesType += tempUpdateType;
-            }
-            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].LastName, updatedClient.LastName);
-            if (tempUpdateType != "")
-            {
-                fieldsUpdated += "last name;";
-                updatesType += tempUpdateType;
-            }
-            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FatherName, updatedClient.FatherName);
-            if (tempUpdateType != "")
-            {
-                fieldsUpdated += "father name;";
-                updatesType += tempUpdateType;
-            }
-            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].PhoneNumber, updatedClient.PhoneNumber);
-            if (tempUpdateType != "")
-            {
-                fieldsUpdated += "phone number;";
-                updatesType += tempUpdateType;
-            }
-            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].Passport, updatedClient.Passport);
-            if (tempUpdateType != "")
-            {
-                fieldsUpdated += "passport;";
-                updatesType += tempUpdateType;
-            }
+                // проверяем каждое поле на наличие изменений и их тип
+                tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FirstName, updatedClient.FirstName);
+                if (tempUpdateType != "")
+                {
+                    fieldsUpdated += "first name;";
+                    updatesType += tempUpdateType;
+                }
+                tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].LastName, updatedClient.LastName);
+                if (tempUpdateType != "")
+                {
+                    fieldsUpdated += "last name;";
+                    updatesType += tempUpdateType;
+                }
+                tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FatherName, updatedClient.FatherName);
+                if (tempUpdateType != "")
+                {
+                    fieldsUpdated += "father name;";
+                    updatesType += tempUpdateType;
+                }
+                tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].PhoneNumber, updatedClient.PhoneNumber);
+                if (tempUpdateType != "")
+                {
+                    fieldsUpdated += "phone number;";
+                    updatesType += tempUpdateType;
+                }
+                tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].Passport, updatedClient.Passport);
+                if (tempUpdateType != "")
+                {
+                    fieldsUpdated += "passport;";
+                    updatesType += tempUpdateType;
+                }
 
-            if (fieldsUpdated == "") return; // если поля не изменились, то просто отменяем запись
-            
-            //удаляем последний ";" символ в каждой строке
-            fieldsUpdated.Substring(0,fieldsUpdated.Length - 1);
-            updatesType.Substring(0,updatesType.Length - 1);
+                if (fieldsUpdated == "") return; // если поля не изменились, то просто отменяем запись
+                //удаляем последний ";" символ в каждой строке
+                fieldsUpdated.Substring(0, fieldsUpdated.Length - 1);
+                updatesType.Substring(0, updatesType.Length - 1);
+            }
+            else
+            {
+                fieldsUpdated = "new client";
+                updatesType = "added";
+                clientPosition = repository.GetBaseSize();
+            }
 
 
             repository.UpdateClientInfo(updatedClient, clientPosition, "Manager", fieldsUpdated, updatesType);
