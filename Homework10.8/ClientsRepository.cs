@@ -48,9 +48,10 @@ namespace Homework10._8
         /// </summary>
         /// <param name="updatedClientInfo"></param>
         /// <param name="clientPosition"></param>
-        public void UpdateClientInfo(Client updatedClientInfo, int clientPosition)
+        public void UpdateClientInfo(Client updatedClientInfo, int clientPosition, string updatedBy, string updatedData, string updateType)
         {
             clients[clientPosition] = updatedClientInfo;
+            clients[clientPosition].LastUpdateInfoSet(updatedBy, updatedData, updateType);
             UpdateClientBaseFile();
         }
 

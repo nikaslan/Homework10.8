@@ -87,6 +87,7 @@ namespace Homework10._8
             TextBoxClientFatherName.Text = client["FatherName"];
             TextBoxClientPhoneNumber.Text = client["PhoneNumber"];
             TextBoxClientPassport.Text = client["Passport"];
+            TextBlockClientUpdateLog.Text = client["UpdateLog"];
         }
 
         private void ListBox_Clients_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -98,10 +99,15 @@ namespace Homework10._8
         private void Button_SaveClientInfo_Click(object sender, RoutedEventArgs e)
         {
             int clientSelected = ListBox_Clients.SelectedIndex;
-            UpdateClientInfo(clientSelected);
+            UpdateClientInfo(clientSelected);            
             Console.WriteLine("Client Save button clicked");
+            ClientInfoLoad(clientSelected);
         }
 
+        /// <summary>
+        /// Запускает проверку введенных данных, выдает ошибку или запускает запись в базу по результатам
+        /// </summary>
+        /// <param name="clientSelected">индекс выбранного клиента в списке</param>
         private void UpdateClientInfo(int clientSelected)
         {
             // проверка полей на соблюдение формата

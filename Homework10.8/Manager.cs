@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,12 +38,71 @@ namespace Homework10._8
                 passport = repository.GetClients()[i].Passport;
             }
             client.Add("Passport", passport);
+            client.Add("UpdateLog",repository.GetClients()[i].GetLastUpdateLog());
             return client;
         }
 
         public void UpdateClientData(ClientsRepository repository, Client updatedClient, int clientPosition)
         {
-            repository.UpdateClientInfo(updatedClient, clientPosition);
+            
+            string fieldsUpdated = "";
+            string updatesType = "";
+            string tempUpdateType;
+
+            // проверяем каждое поле на наличие изменений и их тип
+            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FirstName, updatedClient.FirstName);
+            if (tempUpdateType != "")
+            {
+                fieldsUpdated += "first name;";
+                updatesType += tempUpdateType;
+            }
+            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].LastName, updatedClient.LastName);
+            if (tempUpdateType != "")
+            {
+                fieldsUpdated += "last name;";
+                updatesType += tempUpdateType;
+            }
+            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].FatherName, updatedClient.FatherName);
+            if (tempUpdateType != "")
+            {
+                fieldsUpdated += "father name;";
+                updatesType += tempUpdateType;
+            }
+            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].PhoneNumber, updatedClient.PhoneNumber);
+            if (tempUpdateType != "")
+            {
+                fieldsUpdated += "phone number;";
+                updatesType += tempUpdateType;
+            }
+            tempUpdateType = GetTypeOfChange(repository.GetClients()[clientPosition].Passport, updatedClient.Passport);
+            if (tempUpdateType != "")
+            {
+                fieldsUpdated += "passport;";
+                updatesType += tempUpdateType;
+            }
+
+            if (fieldsUpdated == "") return; // если поля не изменились, то просто отменяем запись
+            
+            //удаляем последний ";" символ в каждой строке
+            fieldsUpdated.Substring(0,fieldsUpdated.Length - 1);
+            updatesType.Substring(0,updatesType.Length - 1);
+
+
+            repository.UpdateClientInfo(updatedClient, clientPosition, "Manager", fieldsUpdated, updatesType);
+        }
+
+        public string GetTypeOfChange(string existingClientData, string newClientData)
+        {
+            string updateType = "";
+            if (existingClientData == newClientData.Trim()) return updateType; // если данные не изменились - отмена
+
+            if (existingClientData == "") updateType = "added;"; // если в базе нет записи и мы что-то добавляем
+            else  // если же в базе что-то было
+            {
+                if (newClientData.Trim() == "") updateType = "deleted;"; // а в новой записи ничего нет - значит удалили
+                else updateType = "updated;"; // если в новой записи что-то есть - значит обновили
+            }
+            return updateType;
         }
     }
 }
